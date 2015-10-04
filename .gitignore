@@ -1,5 +1,8 @@
 .idea/
+.vagrant/
+build/
+docs/
 vendor/
-docs
+cache.properties
 composer.phar
 composer.lock

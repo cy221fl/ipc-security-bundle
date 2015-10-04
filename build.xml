@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ideaplexus Platform Components" default="build">
+    <property name="php" value="php"/>
+    <property name="bindir" value="vendor/bin"/>
+    <property name="builddir" value="build"/>
+
+    <target name="build" depends="cleanup,prepare,composer,lint,phploc,pdepend,phpmd,phpcs,phpcpd,phpunit,phpdox" />
+
+    <target name="cleanup" description="Cleanup build artifacts">
+        <delete dir="${basedir}/build"/>
+    </target>
+
+    <target name="prepare" depends="cleanup" description="Prepare build folder">
+        <mkdir dir="${builddir}"/>
+        <mkdir dir="${builddir}/coverage"/>
+        <mkdir dir="${builddir}/logs"/>
+        <mkdir dir="${builddir}/pdepend"/>
+        <mkdir dir="${builddir}/phpdox"/>
+    </target>
+
+    <!-- Composer tasks -->
+    <target name="composer" depends="composer:download,composer:check,composer:install,composer:update" description="Run Composer tasks" />
+    <target name="composer:cleanup" description="Deletes composer and his data">
+        <delete file="${basedir}/composer.phar"/>
+        <delete file="${basedir}/composer.lock"/>
+        <delete dir="${basedir}/vendor"/>
+        <delete dir="${basedir}/bin"/>
+    </target>
+    <target name="composer:download" description="Downloads composer.phar (when it does not exist or is older than 30 days)">
+        <tstamp>
+            <format property="thirty.days.ago" pattern="MM/dd/yyyy hh:mm aa" offset="-30" unit="day"/>
+        </tstamp>
+        <delete>
+            <fileset dir="${basedir}">
+                <include name="composer.phar"/>
+                <date datetime="${thirty.days.ago}" when="before"/>
+            </fileset>
+        </delete>
+        <get src="https://getcomposer.org/composer.phar" dest="${basedir}/composer.phar" skipexisting="true"/>
+        <chmod file="${basedir}/connect.phar" perm="ugo+rx"/>
+    </target>
+    <target name="composer:check" description="Check for the composer.lock file">
+        <available file="${basedir}/composer.lock" property="composerlock:present" />
+    </target>
+    <target name="composer:install" depends="composer:download,composer:check" unless="composerlock:present" description="Install dependencies with Composer">
+        <exec executable="php">
+            <arg value="composer.phar"/>
+            <arg value="install"/>
+            <arg value="--no-progress"/>
+            <arg value="--optimize-autoloader"/>
+        </exec>
+    </target>
+    <target name="composer:update" depends="composer:download,composer:check" if="composerlock:present" description="Update dependencies with Composer">
+        <exec executable="php">
+            <arg value="composer.phar"/>
+            <arg value="update"/>
+            <arg value="--no-progress"/>
+            <arg value="--optimize-autoloader"/>
+        </exec>
+    </target>
+
+    <target name="lint" description="Validate PHP code">
+        <apply executable="${php}" failonerror="true">
+            <arg value="-l"/>
+            <fileset dir="${basedir}">
+                <include name="**/*.php"/>
+                <exclude name="vendor/**/*.php"/>
+                <modified/>
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="${bindir}/phploc">
+            <arg value="--log-csv"/>
+            <arg value="${builddir}/logs/phploc.csv"/>
+            <arg value="--log-xml"/>
+            <arg value="${builddir}/logs/phploc.xml"/>
+            <arg value="--exclude"/>
+            <arg value="Tests"/>
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
+            <arg path="${basedir}"/>
+        </exec>
+    </target>
+
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="${bindir}/pdepend">
+            <arg value="--jdepend-xml=${builddir}/logs/jdepend.xml"/>
+            <arg value="--jdepend-chart=${builddir}/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${builddir}/pdepend/overview-pyramid.svg"/>
+            <arg value="--ignore=${basedir}/Tests,${basedir}/vendor"/>
+            <arg path="${basedir}"/>
+        </exec>
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD">
+        <exec executable="${bindir}/phpmd">
+            <arg path="${basedir}"/>
+            <arg value="xml"/>
+            <arg value="cleancode,codesize,controversial,design,naming,unusedcode"/>
+            <arg value="--reportfile"/>
+            <arg value="${builddir}/logs/pmd.xml"/>
+            <arg value="--exclude"/>
+            <arg path="${basedir}/Tests/*.php"/>
+            <arg value="--exclude"/>
+            <arg path="${basedir}/vendor/*.php"/>
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
+        <exec executable="${bindir}/phpcs" output="/dev/null">
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${builddir}/logs/checkstyle.xml"/>
+            <arg value="--standard=PSR2"/>
+            <arg value="--extensions=php"/>
+            <arg value="--ignore=${basedir}/Tests/*,${basedir}/vendor/*"/>
+            <arg path="${basedir}"/>
+        </exec>
+    </target>
+
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="${bindir}/phpcpd">
+            <arg value="--log-pmd"/>
+            <arg value="${builddir}/logs/pmd-cpd.xml"/>
+            <arg value="--min-lines"/>
+            <arg value="3"/>
+            <arg value="--exclude"/>
+            <arg value="Tests"/>
+            <arg value="--exclude"/>
+            <arg value="vendor"/>
+            <arg path="${basedir}"/>
+        </exec>
+    </target>
+
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+        <exec executable="${bindir}/phpunit" failonerror="true">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/phpunit.xml.dist"/>
+            <arg value="--log-junit"/>
+            <arg path="${builddir}/logs/junit.xml"/>
+            <arg value="--coverage-clover"/>
+            <arg path="${builddir}/logs/clover.xml"/>
+            <arg value="--coverage-xml"/>
+            <arg path="${builddir}/coverage"/>
+            <arg value="--coverage-html"/>
+            <arg path="${basedir}/docs/coverage"/>
+        </exec>
+    </target>
+
+    <target name="phpdox" description="Generate software project documentation using phpDox">
+        <exec executable="${bindir}/phpdox"/>
+    </target>
+</project>
