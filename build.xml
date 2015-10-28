@@ -135,6 +135,7 @@
 
     <target name="phpunit" description="Run unit tests with PHPUnit">
         <exec executable="${bindir}/phpunit" failonerror="true">
+            <arg value="-vvv"/>
             <arg value="--configuration"/>
             <arg path="${basedir}/phpunit.xml.dist"/>
             <arg value="--log-junit"/>

@@ -1,0 +1,17 @@
+login:
+    path:     /login
+    defaults: { _controller: IPCSecurityBundle:Authentication:login }
+login_check:
+    path:     /login_check
+logout:
+    path:     /logout
+
+profiler_enable:
+    path:     /profiler/enable
+    defaults: { _controller: IPCSecurityBundle:Profiler:enable }
+profiler_disable:
+    path:     /profiler/disable
+    defaults: { _controller: IPCSecurityBundle:Profiler:disable }
+profiler_status:
+    path:     /profiler/status
+    defaults: { _controller: IPCSecurityBundle:Profiler:status }

@@ -1,7 +1,9 @@
 .idea/
 .vagrant/
 build/
+cache/
 docs/
+logs/
 vendor/
 cache.properties
 composer.phar

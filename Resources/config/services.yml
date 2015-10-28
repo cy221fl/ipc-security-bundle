@@ -1,0 +1,4 @@
+services:
+  doctine_user_provider:
+    class:     IPC\SecurityBundle\Provider\DoctrineUserProvider
+    arguments: [ "@doctrine.orm.entity_manager" ]

@@ -1,7 +1,7 @@
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.0/phpunit.xsd"
-        bootstrap="vendor/autoload.php"
+        bootstrap="./Tests/bootstrap.php"
         cacheTokens="false"
         colors="false"
         convertErrorsToExceptions="true"
@@ -11,13 +11,21 @@
         processIsolation="true"
         stopOnError="false">
     <testsuites>
-        <testsuite name="SecurityBundle">
-            <directory>Tests</directory>
+        <testsuite name="Ideaplexus Platform Components SecurityBundle">
+            <directory>./Tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <server name="KERNEL_DIR" value="./Tests" />
+    </php>
     <filter>
         <whitelist>
-            <directory>Entity</directory>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+                <directory>./cache</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>
