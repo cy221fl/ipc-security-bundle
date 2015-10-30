@@ -24,7 +24,6 @@
         <delete file="${basedir}/composer.phar"/>
         <delete file="${basedir}/composer.lock"/>
         <delete dir="${basedir}/vendor"/>
-        <delete dir="${basedir}/bin"/>
     </target>
     <target name="composer:download" description="Downloads composer.phar (when it does not exist or is older than 30 days)">
         <tstamp>
@@ -65,6 +64,7 @@
             <fileset dir="${basedir}">
                 <include name="**/*.php"/>
                 <exclude name="vendor/**/*.php"/>
+                <exclude name="cache/**/*.php"/>
                 <modified/>
             </fileset>
         </apply>
@@ -79,6 +79,8 @@
             <arg value="--exclude"/>
             <arg value="Tests"/>
             <arg value="--exclude"/>
+            <arg value="cache"/>
+            <arg value="--exclude"/>
             <arg value="vendor"/>
             <arg path="${basedir}"/>
         </exec>
@@ -89,7 +91,7 @@
             <arg value="--jdepend-xml=${builddir}/logs/jdepend.xml"/>
             <arg value="--jdepend-chart=${builddir}/pdepend/dependencies.svg"/>
             <arg value="--overview-pyramid=${builddir}/pdepend/overview-pyramid.svg"/>
-            <arg value="--ignore=${basedir}/Tests,${basedir}/vendor"/>
+            <arg value="--ignore=${basedir}/Tests,${basedir}/cache,${basedir}/vendor"/>
             <arg path="${basedir}"/>
         </exec>
     </target>
@@ -102,9 +104,11 @@
             <arg value="--reportfile"/>
             <arg value="${builddir}/logs/pmd.xml"/>
             <arg value="--exclude"/>
-            <arg path="${basedir}/Tests/*.php"/>
+            <arg path="${basedir}/Tests/*"/>
             <arg value="--exclude"/>
-            <arg path="${basedir}/vendor/*.php"/>
+            <arg path="${basedir}/cache/*"/>
+            <arg value="--exclude"/>
+            <arg path="${basedir}/vendor/*"/>
         </exec>
     </target>
 
@@ -114,7 +118,7 @@
             <arg value="--report-file=${builddir}/logs/checkstyle.xml"/>
             <arg value="--standard=PSR2"/>
             <arg value="--extensions=php"/>
-            <arg value="--ignore=${basedir}/Tests/*,${basedir}/vendor/*"/>
+            <arg value="--ignore=${basedir}/Tests/*,${basedir}/cache/*,${basedir}/vendor/*"/>
             <arg path="${basedir}"/>
         </exec>
     </target>
@@ -127,6 +131,8 @@
             <arg value="3"/>
             <arg value="--exclude"/>
             <arg value="Tests"/>
+            <arg value="--exclude"/>
+            <arg value="cache"/>
             <arg value="--exclude"/>
             <arg value="vendor"/>
             <arg path="${basedir}"/>

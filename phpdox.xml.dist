@@ -5,6 +5,7 @@
         <collector publiconly="false" backend="parser">
             <include mask="*.php" />
             <exclude mask="**Tests**" />
+            <exclude mask="**cache**" />
             <exclude mask="**vendor**" />
             <inheritance resolve="true">
             </inheritance>
