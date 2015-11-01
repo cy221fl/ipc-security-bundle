@@ -43,11 +43,11 @@ class LoginType extends AbstractType
                 'submit',
                 'submit',
                 [
-                    'required' => true,
                     'label'    => 'login',
                 ]
             )
             ->setAction('login_check')
+            ->setMethod('POST')
         ;
     }
 

@@ -30,12 +30,12 @@ class AuthenticationController extends Controller
         $lastUsername = (null === $session) ? '' : $session->get(Security::LAST_USERNAME);
 
         return $this->render(
-            'IpcSecurityBundle:Authentication:login.html.twig',
+            'IPCSecurityBundle:Authentication:login.html.twig',
             [
                 // last username entered by the user
                 'last_username' => $lastUsername,
                 'error'         => $error,
-                'loginForm'     => $loginForm->createView(),
+                'login'         => $loginForm->createView(),
             ]
         );
     }

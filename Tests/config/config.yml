@@ -1,17 +1,53 @@
 # Framework Configuration
 framework:
     test: ~
+    form: ~
     session:
         storage_id: session.storage.mock_file
     profiler:
         collect: false
-
     secret: "test"
     router:
         resource: "%kernel.root_dir%/../Resources/config/routing.yml"
         strict_requirements: ~
     templating:
         engines: ['twig']
+
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+    providers:
+        in_memory:
+            memory:
+                users:
+                    test:
+                        password: test
+                        roles: ROLE_USER
+    firewalls:
+        secured_area:
+            http_basic: ~
+            anonymous: ~
+            pattern:   ^/
+            form_login:
+                login_path: /login
+                check_path: /login_check
+                username_parameter: "login[username]"
+                password_parameter: "login[password]"
+                require_previous_session: false
+            logout:
+                path:   /logout
+                target: /
+                invalidate_session: true
+            remember_me:
+                key:      "%kernel.secret%"
+                lifetime: 31536000
+                path:     /
+                domain:   ~
+                remember_me_parameter: "login[remember_me]"
+    access_control:
+        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
 
 # Twig Configuration
 twig:

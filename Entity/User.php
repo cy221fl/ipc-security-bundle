@@ -45,7 +45,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     /**
      * Roles
      *
-     * @var Collection|Role[]
+     * @var Collection | Role[]
      */
     protected $roles;
 
@@ -109,7 +109,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @param Role|string $role
+     * @param Role | string $role
      * @return $this
      */
     public function addRole($role)
@@ -118,7 +118,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $role = new Role($role);
         } elseif (!$role instanceof RoleInterface) {
             throw new \InvalidArgumentException(
-                sprintf('$role must be a string, or RoleInterface instance, but got %s.', gettype($role))
+                sprintf('$role must be a string or RoleInterface instance, but got %s.', gettype($role))
             );
         } // no else
         if (!$this->roles->containsKey($role->getRole())) {
@@ -128,7 +128,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @param Role|string $role
+     * @param Role | string $role
      * @return $this
      */
     public function removeRole($role)
@@ -137,7 +137,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $role = new Role($role);
         } elseif (!$role instanceof RoleInterface) {
             throw new \InvalidArgumentException(
-                sprintf('$role must be a string, or RoleInterface instance, but got %s.', gettype($role))
+                sprintf('$role must be a string or RoleInterface instance, but got %s.', gettype($role))
             );
         }
         if ($this->roles->containsKey($role->getRole())) {

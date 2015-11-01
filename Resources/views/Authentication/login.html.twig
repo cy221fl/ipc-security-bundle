@@ -3,14 +3,16 @@
 {% block body %}
     {{ form_start(login) }}
         {% if error %}
-                {{ error.message }}
-                {{ form_errors(login) }}
+            {{ error.message }}
+            {{ form_errors(login) }}
         {% endif %}
-                {{ form_widget(login.username) }}
-                {{ form_widget(login.password) }}
-                {{ form_widget(login.remember_me) }}
-                {{ form_label(login.remember_me) }}
-                {{ form_widget(login.submit) }}
+        {{ form_label(login.username) }}
+        {{ form_widget(login.username) }}
+        {{ form_label(login.password) }}
+        {{ form_widget(login.password) }}
+        {{ form_widget(login.remember_me) }}
+        {{ form_label(login.remember_me) }}
+        {{ form_widget(login.submit) }}
         {#
             If you want to control the URL the user
             is redirected to on success (more details below)
