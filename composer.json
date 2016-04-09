@@ -18,21 +18,21 @@
     }
   ],
   "require": {
-    "php": ">= 5.6",
-    "symfony/symfony": "~2.7",
+    "php": ">= 5.5.9",
+    "symfony/symfony": "~2.7|~3.0",
     "doctrine/doctrine-bundle": "~1.5"
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "*",
-    "symfony/monolog-bundle": "*",
-    "phpunit/phpunit": "*",
-    "pdepend/pdepend" : "*",
-    "phploc/phploc": "*",
-    "phpmd/phpmd": "*",
-    "sebastian/phpcpd": "*",
-    "theseer/phpdox": "*",
-    "squizlabs/php_codesniffer": "*",
-    "ipc/test-bundle": "~0.1"
+    "symfony/monolog-bundle": "@stable",
+    "symfony/phpunit-bridge": "@stable",
+    "ipc/test-bundle": "@stable",
+    "phpunit/phpunit": "@stable",
+    "pdepend/pdepend": "@stable",
+    "phploc/phploc": "@stable",
+    "phpmd/phpmd": "@stable",
+    "sebastian/phpcpd": "@stable",
+    "theseer/phpdox": "@stable",
+    "squizlabs/php_codesniffer": "@stable"
   },
   "autoload": {
     "psr-4": {
