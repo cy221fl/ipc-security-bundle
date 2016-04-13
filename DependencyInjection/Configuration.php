@@ -2,6 +2,7 @@
 
 namespace IPC\SecurityBundle\DependencyInjection;
 
+use IPC\SecurityBundle\Form\Type\LoginType;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -17,6 +18,27 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('ipc_security');
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('authentication')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('login')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('form')
+                                    ->defaultValue(LoginType::class)
+                                ->end()
+                                ->scalarNode('view')
+                                    ->defaultValue('IPCSecurityBundle:Authentication:login.html.twig')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
         return $treeBuilder;
     }
 }
