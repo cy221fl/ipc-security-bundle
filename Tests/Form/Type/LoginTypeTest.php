@@ -15,12 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class LoginTypeTest extends TypeTestCase
 {
 
-    public function testGetName()
-    {
-        $form = new LoginType();
-        $this->assertEquals('login', $form->getName());
-    }
-
     public function testConfigureOptions()
     {
         $resolver = new OptionsResolver();
