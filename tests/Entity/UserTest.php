@@ -1,6 +1,6 @@
 <?php
 
-namespace IPC\SecurityBundle\Tests\Entity;
+namespace Tests\IPC\SecurityBundle\Entity;
 
 use IPC\SecurityBundle\Entity\User;
 use PHPUnit_Framework_TestCase;

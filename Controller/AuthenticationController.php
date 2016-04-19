@@ -10,8 +10,8 @@ class AuthenticationController extends Controller
 {
     public function loginAction(Request $request)
     {
-        $form = $this->container->getParameter('ipc_security.authentication.login.form');
-        $loginForm = $this->createForm($form);
+        $formClass = $this->container->getParameter('ipc_security.authentication.login.form');
+        $loginForm = $this->createForm($formClass);
 
         $session = $request->getSession();
 

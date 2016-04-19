@@ -1,6 +1,6 @@
 <?php
 
-namespace IPC\SecurityBundle\Tests\Form\Type;
+namespace Tests\IPC\SecurityBundle\Form\Type;
 
 use IPC\SecurityBundle\Form\Type\LoginType;
 use Symfony\Component\Form\Test\TypeTestCase;

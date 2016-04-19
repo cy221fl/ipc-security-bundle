@@ -1,6 +1,6 @@
 <?php
 
-namespace IPC\SecurityBundle\Tests\Controller;
+namespace Tests\IPC\SecurityBundle\Controller;
 
 use IPC\TestBundle\Tests\Controller\AbstractControllerTest;
 

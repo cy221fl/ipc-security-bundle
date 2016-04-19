@@ -39,7 +39,7 @@ security:
                 target: /
                 invalidate_session: true
             remember_me:
-                key:      "%kernel.secret%"
+                secret:   "%kernel.secret%"
                 lifetime: 31536000
                 path:     /
                 domain:   ~
@@ -91,3 +91,5 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
+
+ipc_security: ~
