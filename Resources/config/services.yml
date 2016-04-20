@@ -1,7 +1,7 @@
 services:
     ipc.security.doctine_user_provider:
         class:     IPC\SecurityBundle\Provider\DoctrineUserProvider
-        arguments: [ "@doctrine", IPC\SecurityBundle\Entity\User ]
+        arguments: [ "@doctrine", "%ipc_security.doctrine_user_provider.entity_class%", "%ipc_security.doctrine_user_provider.username_properties%" ]
 
     ipc.security.form.type.login:
         class: IPC\SecurityBundle\Form\Type\LoginType

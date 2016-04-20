@@ -2,6 +2,7 @@
 
 namespace IPC\SecurityBundle\DependencyInjection;
 
+use IPC\SecurityBundle\Entity\User;
 use IPC\SecurityBundle\Form\Type\LoginType;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -40,6 +41,9 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('doctrine_user_provider')
                             ->addDefaultsIfNotSet()
                             ->children()
+                                ->scalarNode('entity_class')
+                                    ->defaultValue(User::class)
+                                ->end()
                                 ->arrayNode('username_properties')
                                     ->treatNullLike([])
                                     ->prototype('scalar')->end()

@@ -3,7 +3,7 @@
 namespace IPC\SecurityBundle\Provider;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query\Expr;
@@ -50,11 +50,14 @@ class DoctrineUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        /* @var EntityManager $manager */
-        $manager = $this->managerRegistry->getManagerForClass($this->entityClass);
-
+        /* @var EntityRepository $repository */
+        $repository = $this
+            ->managerRegistry
+            ->getManagerForClass($this->entityClass)
+            ->getRepository($this->entityClass)
+        ;
         try {
-            $qb = $manager->createQueryBuilder();
+            $qb = $repository->createQueryBuilder('u');
             $qb->select('u, r')->leftJoin('u.roles', 'r');
 
             foreach ($this->usernameProperties as $property) {
@@ -96,6 +99,6 @@ class DoctrineUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return $class instanceof User;
+        return ($class instanceof User || is_subclass_of($class, User::class));
     }
 }

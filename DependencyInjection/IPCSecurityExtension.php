@@ -29,6 +29,10 @@ class IPCSecurityExtension extends Extension
             $config['authentication']['login']['view']
         );
         $container->setParameter(
+            'ipc_security.doctrine_user_provider.entity_class',
+            $config['authentication']['doctrine_user_provider']['entity_class']
+        );
+        $container->setParameter(
             'ipc_security.doctrine_user_provider.username_properties',
             $config['authentication']['doctrine_user_provider']['username_properties']
         );

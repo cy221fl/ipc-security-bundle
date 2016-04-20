@@ -105,12 +105,15 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
+        return $this->roles->toArray();
     }
 
     /**
      * @param Role | string $role
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function addRole($role)
     {
@@ -129,7 +132,10 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
 
     /**
      * @param Role | string $role
+     *
      * @return $this
+     *
+     * @throws \InvalidArgumentException
      */
     public function removeRole($role)
     {
@@ -360,6 +366,9 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function serialize()
     {
         return serialize([
@@ -374,6 +383,9 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         ]);
     }
 
+    /**
+     * @param string $serialized
+     */
     public function unserialize($serialized)
     {
         list(
@@ -389,6 +401,11 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         $this->roles = new ArrayCollection($roles);
     }
 
+    /**
+     * @param UserInterface $user
+     *
+     * @return bool
+     */
     public function isEqualTo(UserInterface $user)
     {
         $userKey = implode('', [
@@ -403,5 +420,4 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         ]);
         return $userKey === $selfKey;
     }
-
 }
