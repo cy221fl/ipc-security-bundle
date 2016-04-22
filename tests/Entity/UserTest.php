@@ -6,7 +6,7 @@ use IPC\SecurityBundle\Entity\User;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\Security\Core\Role\Role;
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -14,7 +14,7 @@ class UserTest extends PHPUnit_Framework_TestCase
      */
     private $user;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->user = new User();
     }
@@ -117,18 +117,6 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('ROLE_USER', $this->user->getRoles());
         $this->user->removeRole('ROLE_USER');
         $this->assertArrayNotHasKey('ROLE_USER', $this->user->getRoles());
-    }
-
-    public function testAddRoleMethodException()
-    {
-        $this->setExpectedException('\InvalidArgumentException');
-        $this->user->addRole(1);
-    }
-
-    public function testRemoveRoleMethodException()
-    {
-        $this->setExpectedException('\InvalidArgumentException');
-        $this->user->removeRole(1);
     }
 
     public function testIsEqualToMethod()

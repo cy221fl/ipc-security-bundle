@@ -5,8 +5,6 @@ namespace IPC\SecurityBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Serializable;
-use Symfony\Component\Security\Core\Role\Role;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -112,17 +110,11 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
      * @param Role | string $role
      *
      * @return $this
-     *
-     * @throws \InvalidArgumentException
      */
     public function addRole($role)
     {
         if (is_string($role)) {
             $role = new Role($role);
-        } elseif (!$role instanceof RoleInterface) {
-            throw new \InvalidArgumentException(
-                sprintf('$role must be a string or RoleInterface instance, but got %s.', gettype($role))
-            );
         } // no else
         if (!$this->roles->containsKey($role->getRole())) {
             $this->roles->set($role->getRole(), $role);
@@ -134,17 +126,11 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
      * @param Role | string $role
      *
      * @return $this
-     *
-     * @throws \InvalidArgumentException
      */
     public function removeRole($role)
     {
         if (is_string($role)) {
             $role = new Role($role);
-        } elseif (!$role instanceof RoleInterface) {
-            throw new \InvalidArgumentException(
-                sprintf('$role must be a string or RoleInterface instance, but got %s.', gettype($role))
-            );
         }
         if ($this->roles->containsKey($role->getRole())) {
             $this->roles->remove($role->getRole());

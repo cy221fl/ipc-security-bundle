@@ -36,16 +36,24 @@ class DoctrineUserProvider implements UserProviderInterface
      * @param ManagerRegistry $managerRegistry
      * @param string $entityClass
      * @param array $usernameProperties
+     *
+     * @throws UnsupportedUserException
      */
-    public function __construct($managerRegistry, $entityClass, $usernameProperties)
+    public function __construct(ManagerRegistry $managerRegistry, $entityClass, array $usernameProperties = ['username'])
     {
+        if (!$this->supportsClass($entityClass)) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $entityClass));
+        } else {
+            $this->entityClass = $entityClass;
+        }
+
         $this->managerRegistry = $managerRegistry;
-        $this->entityClass = $entityClass;
         $this->usernameProperties = $usernameProperties;
     }
 
     /**
      * {@inheritdoc}
+     *
      * @throws AuthenticationException
      */
     public function loadUserByUsername($username)
@@ -71,7 +79,7 @@ class DoctrineUserProvider implements UserProviderInterface
             $notFoundException->setUsername($username);
             throw $notFoundException;
         } catch (NonUniqueResultException $e) {
-            throw new AuthenticationException('Multiple users with username found.', 0, $e);
+            throw new AuthenticationException('Multiple users found by username property.', 0, $e);
         }
 
         return $user;
@@ -99,6 +107,10 @@ class DoctrineUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return ($class instanceof User || is_subclass_of($class, User::class));
+        return
+            $class === User::class ||
+            $class instanceof User ||
+            is_subclass_of($class, User::class)
+        ;
     }
 }
