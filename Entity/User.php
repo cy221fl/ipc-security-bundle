@@ -118,6 +118,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         } // no else
         if (!$this->roles->containsKey($role->getRole())) {
             $this->roles->set($role->getRole(), $role);
+            $role->addUser($this);
         } // no else
         return $this;
     }
@@ -134,6 +135,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         }
         if ($this->roles->containsKey($role->getRole())) {
             $this->roles->remove($role->getRole());
+            $role->removeUser($this);
         } // no else
         return $this;
     }

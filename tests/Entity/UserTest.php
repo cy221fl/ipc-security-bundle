@@ -3,8 +3,8 @@
 namespace Tests\IPC\SecurityBundle\Entity;
 
 use IPC\SecurityBundle\Entity\User;
+use IPC\SecurityBundle\Entity\Role;
 use PHPUnit_Framework_TestCase;
-use Symfony\Component\Security\Core\Role\Role;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {
