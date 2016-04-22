@@ -12,12 +12,12 @@ class Role implements RoleInterface
     /**
      * @var string
      */
-    private $roleKey;
+    protected $roleKey;
 
     /**
      * @var Collection
      */
-    private $users;
+    protected $users;
 
     /**
      * Constructor
