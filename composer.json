@@ -3,18 +3,12 @@
   "type": "library",
   "description": "",
   "keywords": ["php"],
-  "homepage": "http://bitbucket.ideaplexus.com/projects/IPC/repos/securitybundle",
+  "homepage": "https://github.com/tburschka/ipc-security-bundle",
   "license": "MIT",
   "authors": [
     {
       "name": "Torsten Burschka",
-      "email": "torsten.burschka@ideaplexus.com"
-    }
-  ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "ssh://git@bitbucket.ideaplexus.com:7999/ipc/testbundle.git"
+      "email": "torsten.burschka@gmail.com"
     }
   ],
   "require": {
@@ -23,8 +17,8 @@
     "doctrine/doctrine-bundle": "~1.5"
   },
   "require-dev": {
-    "symfony/monolog-bundle": "@stable",
     "symfony/phpunit-bridge": "@stable",
+    "symfony/monolog-bundle": "@stable",
     "ipc/test-bundle": "@stable",
     "phpunit/phpunit": "@stable",
     "pdepend/pdepend": "@stable",
