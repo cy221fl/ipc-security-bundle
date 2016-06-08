@@ -3,6 +3,10 @@ services:
         class:     IPC\SecurityBundle\Provider\DoctrineUserProvider
         arguments: [ "@doctrine", "%ipc_security.doctrine_user_provider.entity_class%", "%ipc_security.doctrine_user_provider.username_properties%" ]
 
+    ipc.security.service.security_token:
+        class: IPC\SecurityBundle\Service\SecurityToken
+        arguments: [ "@security.token_storage", "@session" ]
+
     ipc.security.form.type.login:
         class: IPC\SecurityBundle\Form\Type\LoginType
         tags:
