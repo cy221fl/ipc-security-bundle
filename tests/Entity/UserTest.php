@@ -112,11 +112,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->user->getRoles());
         $this->user->addRole('ROLE_ADMIN');
-        $this->assertArrayHasKey('ROLE_ADMIN', $this->user->getRoles());
+        $this->assertTrue($this->user->hasRole('ROLE_ADMIN'));
+        $this->assertCount(1, $this->user->getRoles());
         $this->user->addRole(new Role('ROLE_USER'));
-        $this->assertArrayHasKey('ROLE_USER', $this->user->getRoles());
+        $this->assertTrue($this->user->hasRole('ROLE_USER'));
+        $this->assertCount(2, $this->user->getRoles());
         $this->user->removeRole('ROLE_USER');
-        $this->assertArrayNotHasKey('ROLE_USER', $this->user->getRoles());
+        $this->assertFalse($this->user->hasRole('ROLE_USER'));
     }
 
     public function testIsEqualToMethod()

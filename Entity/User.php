@@ -4,7 +4,9 @@ namespace IPC\SecurityBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Serializable;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -43,7 +45,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     /**
      * Roles
      *
-     * @var Collection | Role[]
+     * @var Collection|RoleInterface[]
      */
     protected $roles;
 
@@ -99,7 +101,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return Role[] The user roles
+     * @return RoleInterface[] The user roles
      */
     public function getRoles()
     {
@@ -107,7 +109,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @param Role | string $role
+     * @param RoleInterface|string $role
      *
      * @return $this
      */
@@ -116,15 +118,29 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         if (is_string($role)) {
             $role = new Role($role);
         } // no else
-        if (!$this->roles->containsKey($role->getRole())) {
-            $this->roles->set($role->getRole(), $role);
+        if (!$this->hasRole($role)) {
+            $this->roles->add($role);
             $role->addUser($this);
         } // no else
         return $this;
     }
 
     /**
-     * @param Role | string $role
+     * @param RoleInterface|string $role
+     *
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        if (is_string($role)) {
+            $role = new Role($role);
+        } // no else
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', $role->getRole()));
+        return !$this->roles->matching($criteria)->isEmpty();
+    }
+
+    /**
+     * @param RoleInterface|string $role
      *
      * @return $this
      */
@@ -133,9 +149,11 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         if (is_string($role)) {
             $role = new Role($role);
         }
-        if ($this->roles->containsKey($role->getRole())) {
-            $this->roles->remove($role->getRole());
-            $role->removeUser($this);
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', $role->getRole()));
+        /* @var $userRole Role */
+        foreach ($this->roles->matching($criteria) as $userRole) {
+            $this->roles->removeElement($userRole);
+            $userRole->removeUser($this);
         } // no else
         return $this;
     }

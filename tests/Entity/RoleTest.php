@@ -37,7 +37,8 @@ class RoleTest extends \PHPUnit_Framework_TestCase
     {
         $user = new User();
         $this->assertEmpty($this->role->getUsers());
-
+        $this->role->setRoleKey('ROLE_USER');
+        
         $this->role->addUser($user);
         $this->assertCount(1, $this->role->getUsers());
 
