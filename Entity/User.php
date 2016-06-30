@@ -136,7 +136,8 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $role = new Role($role);
         } // no else
         $criteria = Criteria::create()->where(Criteria::expr()->eq('role', $role->getRole()));
-        return !$this->roles->matching($criteria)->isEmpty();
+        $roles = new ArrayCollection($this->getRoles());
+        return !$roles->matching($criteria)->isEmpty();
     }
 
     /**
@@ -150,11 +151,13 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $role = new Role($role);
         }
         $criteria = Criteria::create()->where(Criteria::expr()->eq('role', $role->getRole()));
+        $roles = new ArrayCollection($this->getRoles());
         /* @var $userRole Role */
-        foreach ($this->roles->matching($criteria) as $userRole) {
-            $this->roles->removeElement($userRole);
+        foreach ($roles->matching($criteria) as $userRole) {
+            $roles->removeElement($userRole);
             $userRole->removeUser($this);
         } // no else
+        $this->roles = $roles;
         return $this;
     }
 
