@@ -4,6 +4,7 @@ namespace IPC\SecurityBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\CredentialsExpiredException;
 use Symfony\Component\Security\Core\Security;
 
 class AuthenticationController extends Controller
@@ -23,6 +24,13 @@ class AuthenticationController extends Controller
             $session->remove(Security::AUTHENTICATION_ERROR);
         } else {
             $error = '';
+        }
+
+        if ($error instanceof CredentialsExpiredException &&
+            $this->container->getParameter('ipc_security.authentication.login.handle_expired_credentials')
+        ) {
+            $request->getSession()->set('user', $error->getUser());
+            return $this->redirectToRoute('change_password');
         }
 
         // last username entered by the user

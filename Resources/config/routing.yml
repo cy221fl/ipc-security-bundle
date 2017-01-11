@@ -6,6 +6,10 @@ login_check:
 logout:
     path:     /logout
 
+change_password:
+    path:     /changepassword
+    defaults: { _controller: IPCSecurityBundle:Password:change }
+
 profiler_enable:
     path:     /profiler/enable
     defaults: { _controller: IPCSecurityBundle:Profiler:enable }

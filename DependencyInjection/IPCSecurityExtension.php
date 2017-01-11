@@ -21,12 +21,24 @@ class IPCSecurityExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(
+            'ipc_security.password.change.form',
+            $config['password']['change']['form']
+        );
+        $container->setParameter(
+            'ipc_security.password.change.view',
+            $config['password']['change']['view']
+        );
+        $container->setParameter(
             'ipc_security.authentication.login.form',
             $config['authentication']['login']['form']
         );
         $container->setParameter(
             'ipc_security.authentication.login.view',
             $config['authentication']['login']['view']
+        );
+        $container->setParameter(
+            'ipc_security.authentication.login.handle_expired_credentials',
+            $config['authentication']['login']['handle_expired_credentials']
         );
         $container->setParameter(
             'ipc_security.doctrine_user_provider.entity_class',

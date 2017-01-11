@@ -1,9 +1,8 @@
 {% extends '::base.html.twig' %}
-{% block navigation %}{% endblock %}
 {% block body %}
     {{ form_start(login) }}
         {% if error %}
-            {{ error.message }}
+            {{ error.message | trans }}
             {{ form_errors(login) }}
         {% endif %}
         {{ form_label(login.username) }}

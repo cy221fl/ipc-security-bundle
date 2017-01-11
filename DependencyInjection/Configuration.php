@@ -3,6 +3,7 @@
 namespace IPC\SecurityBundle\DependencyInjection;
 
 use IPC\SecurityBundle\Entity\User;
+use IPC\SecurityBundle\Form\Type\ChangePasswordType;
 use IPC\SecurityBundle\Form\Type\LoginType;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -22,6 +23,22 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->arrayNode('password')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('change')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('form')
+                                    ->defaultValue(ChangePasswordType::class)
+                                ->end()
+                                ->scalarNode('view')
+                                    ->defaultValue('IPCSecurityBundle:Password:change.html.twig')
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('authentication')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -33,6 +50,9 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                                 ->scalarNode('view')
                                     ->defaultValue('IPCSecurityBundle:Authentication:login.html.twig')
+                                ->end()
+                                ->booleanNode('handle_expired_credentials')
+                                    ->defaultTrue()
                                 ->end()
                             ->end()
                         ->end()
