@@ -21,32 +21,46 @@ class IPCSecurityExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(
-            'ipc_security.password.credentials_expired.form',
-            $config['password']['change']['form']
+            'ipc_security.login.form',
+            $config['login']['form']
         );
         $container->setParameter(
-            'ipc_security.password.change.view',
-            $config['password']['change']['view']
+            'ipc_security.login.view',
+            $config['login']['view']
         );
         $container->setParameter(
-            'ipc_security.authentication.login.form',
-            $config['authentication']['login']['form']
+            'ipc_security.login.credentials_expired',
+            $config['login']['credentials_expired']
         );
         $container->setParameter(
-            'ipc_security.authentication.login.view',
-            $config['authentication']['login']['view']
+            'ipc_security.login.flash_bag',
+            $config['login']['flash_bag']
+        );
+
+        $container->setParameter(
+            'ipc_security.credentials_expired.form',
+            $config['credentials_expired']['form']
         );
         $container->setParameter(
-            'ipc_security.authentication.login.handle_credentials_expired',
-            $config['authentication']['login']['handle_credentials_expired']
+            'ipc_security.credentials_expired.view',
+            $config['credentials_expired']['view']
         );
+        $container->setParameter(
+            'ipc_security.credentials_expired.options',
+            $config['credentials_expired']['options']
+        );
+        $container->setParameter(
+            'ipc_security.credentials_expired.flash_bag',
+            $config['credentials_expired']['flash_bag']
+        );
+
         $container->setParameter(
             'ipc_security.doctrine_user_provider.entity_class',
-            $config['authentication']['doctrine_user_provider']['entity_class']
+            $config['doctrine_user_provider']['entity_class']
         );
         $container->setParameter(
             'ipc_security.doctrine_user_provider.username_properties',
-            $config['authentication']['doctrine_user_provider']['username_properties']
+            $config['doctrine_user_provider']['username_properties']
         );
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

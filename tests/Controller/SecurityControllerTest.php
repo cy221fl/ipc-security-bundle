@@ -4,7 +4,7 @@ namespace Tests\IPC\SecurityBundle\Controller;
 
 use IPC\TestBundle\Tests\Controller\AbstractControllerTest;
 
-class AuthenticationControllerTest extends AbstractControllerTest
+class SecurityControllerTest extends AbstractControllerTest
 {
 
     public function testLoginForm()
