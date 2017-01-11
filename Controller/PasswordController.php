@@ -2,28 +2,49 @@
 
 namespace IPC\SecurityBundle\Controller;
 
-use IPC\SecurityBundle\Entity\Role;
-use IPC\SecurityBundle\Entity\User;
-use IPC\SecurityBundle\Form\Model\ChangePassword;
-use IPC\SecurityBundle\Form\Type\ChangePasswordType;
+use IPC\SecurityBundle\Form\Model\ChangePasswordInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class PasswordController extends Controller
 {
 
+    public function credentialsExpiredAction(Request $request)
+    {
+        $user    = $request->getSession()->get('credentials_expired_user');
+        $model   = $this->container->getParameter('ipc_security.password.credentials_expired.model');
+        $form    = $this->container->getParameter('ipc_security.password.credentials_expired.form');
+        $view    = $this->container->getParameter('ipc_security.password.credentials_expired.view');
+        $options = $this->container->getParameter('ipc_security.password.credentials_expired.options');
+
+        return $this->forward('IPCSecurityBundle:Password:handleChangePassword', [
+            'user'        => $user,
+            'form'        => $form,
+            'formOptions' => $options,
+            'view'        => $view,
+            'viewOptions' => $options,
+            'model'       => $model,
+        ]);
+    }
+
     /**
      * Change the user password
      * @param Request $request
-     * @param User    $user
-     * @param array   $options
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function changeAction(Request $request, User $user, array $options)
+    public function handleChangePasswordAction(Request $request)
     {
-        $flashBag = $this->get('session')->getFlashBag();
-        $model    = new ChangePassword();
-        $form     = $this->createForm(ChangePasswordType::class, $model, $options);
+        // get the parameters form request
+        $user         = $request->get('user');
+        $modelClass   = $request->get('model');
+        $formClass    = $request->get('form');
+        $formOptions  = $request->get('formOptions');
+        $viewTemplate = $request->get('view');
+        $viewOptions  = $request->get('viewOptions');
+
+        /* @var $model ChangePasswordInterface */
+        $model    = is_object($modelClass) ? $modelClass : new $modelClass;
+        $form     = $this->createForm($formClass, $model, $formOptions);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($model->getNew()) {
@@ -43,34 +64,9 @@ class PasswordController extends Controller
             }
         }
 
-        return $this->render('@IPCSecurity/Password/change.html.twig', [
+        return $this->render($viewTemplate, [
             'password' => $form->createView(),
-            'options'  => $options,
+            'options'  => $viewOptions,
         ]);
-    }
-
-    /**
-     * Returns based on the given user and the current user which fields to show
-     *
-     * @param User $user
-     *
-     * @return array
-     */
-    protected function getChangePasswordOptions(User $user)
-    {
-        $options = [
-            'require_current'  => true,
-            'require_repeated' => true,
-        ];
-        /* @var $currentUser User */
-        try {
-            $currentUser = $this->getUser();
-            if ($currentUser->hasRole(Role::ROLE_ADMIN) && $user->getUserId() !== $currentUser->getUserId()) {
-                $options['require_current'] = false;
-            }
-        } catch (\LogicException $e) {
-            // do nothing
-        }
-        return $options;
     }
 }

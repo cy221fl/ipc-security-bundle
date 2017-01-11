@@ -6,8 +6,8 @@ login_check:
 logout:
     path:     /logout
 
-change_password:
-    path:     /changepassword
+credentials_expired:
+    path:     /credentials-expired
     defaults: { _controller: IPCSecurityBundle:Password:change }
 
 profiler_enable:

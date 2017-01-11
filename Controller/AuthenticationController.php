@@ -26,11 +26,13 @@ class AuthenticationController extends Controller
             $error = '';
         }
 
-        if ($error instanceof CredentialsExpiredException &&
-            $this->container->getParameter('ipc_security.authentication.login.handle_expired_credentials')
-        ) {
-            $request->getSession()->set('user', $error->getUser());
-            return $this->redirectToRoute('change_password');
+        // redirect in case of credentials expired is configured
+        if ($error instanceof CredentialsExpiredException) {
+            $options = $this->container->getParameter('ipc_security.authentication.login.credentials_expired');
+            if ($options['handle']) {
+                $request->getSession()->set('credentials_expired_user', $error->getUser());
+                return $this->redirectToRoute($options['route']);
+            }
         }
 
         // last username entered by the user
