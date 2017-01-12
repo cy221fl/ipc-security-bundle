@@ -15,7 +15,7 @@ class SecurityController extends Controller
     public function loginAction(Request $request)
     {
         $formClass          = $this->container->getParameter('ipc_security.login.form');
-        $viewTemplate       = $this->container->getParameter('ipc_security.authentication.login.view');
+        $viewTemplate       = $this->container->getParameter('ipc_security.login.view');
         $credentialsExpired = $this->container->getParameter('ipc_security.login.credentials_expired');
         $flashBagOptions    = $this->container->getParameter('ipc_security.login.flash_bag');
 
