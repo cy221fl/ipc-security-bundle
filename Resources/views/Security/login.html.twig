@@ -1,14 +1,19 @@
 {% extends '::base.html.twig' %}
 {% block body %}
     {{ form_start(login) }}
+        {{ form_errors(login) }}
         {% if error %}
             {{ error.message | trans }}
-            {{ form_errors(login) }}
         {% endif %}
+
         {{ form_label(login.username) }}
         {{ form_widget(login.username) }}
+        {{ form_errors(login.username) }}
+
         {{ form_label(login.password) }}
         {{ form_widget(login.password) }}
+        {{ form_errors(login.password) }}
+
         {{ form_widget(login.remember_me) }}
         {{ form_label(login.remember_me) }}
         {{ form_widget(login.submit) }}

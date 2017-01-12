@@ -80,6 +80,7 @@ class SecurityController extends Controller
         $form  = $this->createForm($formClass, $model, $options);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // update credentials
             $user
                 ->setCredentialsExpired(false)
                 ->setPassword($this
@@ -90,29 +91,21 @@ class SecurityController extends Controller
             $manager = $this->getDoctrine()->getManagerForClass(get_class($user));
             $manager->persist($user);
             $manager->flush();
-
-            if ($flashBagOptions && $flashBagOptions['type']['success']) {
-                $flashBag = $this->get('session')->getFlashBag();
-                $type     = $flashBagOptions['type']['success'];
-                $flashBag->add(
-                    $type,
-                    $this->renderView('@IPCCore/translate.html.twig', [
-                        'message' => 'ipc_security.credentials_expired.update_success'
-                    ])
-                );
-            }
             $request->getSession()->remove('credentials_expired_user');
+
+            // add a flash message
+            if ($flashBagOptions && $flashBagOptions['type']['success']) {
+                $type      = $flashBagOptions['type']['success'];
+                $translate = $flashBagOptions['translate'];
+                $this->addFlashMessage($type, 'ipc_security.credentials_expired.update_success', $translate);
+            }
+
         } else {
             if ($flashBagOptions && $flashBagOptions['type']['error']) {
-                $flashBag = $this->get('session')->getFlashBag();
-                $type     = $flashBagOptions['type']['error'];
+                $type      = $flashBagOptions['type']['error'];
+                $translate = $flashBagOptions['translate'];
                 foreach ($form->getErrors() as $error) {
-                    $flashBag->add(
-                        $type,
-                        $this->renderView('@IPCCore/translate.html.twig', [
-                            'message' => $error->getMessage()
-                        ])
-                    );
+                    $this->addFlashMessage($type, $error->getMessage(), $translate);
                 }
             }
         }
@@ -121,5 +114,19 @@ class SecurityController extends Controller
             'change_password' => $form->createView(),
             'options'         => $options,
         ]);
+    }
+
+    /**
+     * @param string $type
+     * @param string $message
+     * @param bool   $translate
+     */
+    protected function addFlashMessage($type, $message, $translate)
+    {
+        if ($translate) {
+            $this->addFlash($type, $this->renderView('@IPCCore/translate.html.twig', ['message' => $message]));
+        } else {
+            $this->addFlash($type, $message);
+        }
     }
 }
