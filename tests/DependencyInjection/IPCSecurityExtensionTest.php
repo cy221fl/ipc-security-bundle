@@ -35,40 +35,7 @@ class IPCSecurityExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->getConfigYml()[$this->root];
         $this->extension->load([$config], $container = $this->getContainer());
-        //$options = $container->getParameter($this->root);
     }
-
-//    public function testCustomSoapOptions()
-//    {
-//        $config = [];
-//        $this->extension->load([$config], $container = $this->getContainer());
-//        $this->assertNull($container->getParameter('hocaras_client.adapter.soap.wsdl'));
-//
-//        $soapOptions = $container->getParameter('hocaras_client.adapter.soap.options');
-//        $this->assertEquals(2, $soapOptions['soap_version']);
-//        $this->assertEquals(false, $soapOptions['wsdl_cache_enabled']);
-//        $this->assertEquals(0, $soapOptions['wsdl_cache_ttl']);
-//        $this->assertEquals(0, $soapOptions['cache_wsdl']);
-//        $this->assertEquals(1, $soapOptions['exceptions']);
-//
-//        $this->assertNull($container->getParameter('hocaras_client.image.server'));
-//        $this->assertEquals(
-//            '/images/hotelId_pictureId_width_height.extension',
-//            $container->getParameter('hocaras_client.image.url')
-//        );
-//    }
-//
-//    public function testMissingWsdl()
-//    {
-//        $this->setExpectedException(
-//            'Symfony\Component\Config\Definition\Exception\InvalidConfigurationException',
-//            'The child node "wsdl" at path "hocaras_client.adapter.soap" must be configured.'
-//        );
-//        $config = $this->getConfigYml()[$this->root];
-//
-//        $this->extension->load([$config], $container = $this->getContainer());
-//    }
-
 
     protected function getConfigYml()
     {
