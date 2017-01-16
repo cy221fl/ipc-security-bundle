@@ -24,27 +24,27 @@ class SecurityController extends Controller
 
         // get the login error if there is one
         if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+            $exception = $request->attributes->get(Security::AUTHENTICATION_ERROR);
         } elseif (null !== $session && $session->has(Security::AUTHENTICATION_ERROR)) {
-            $error = $session->get(Security::AUTHENTICATION_ERROR);
+            $exception = $session->get(Security::AUTHENTICATION_ERROR);
             $session->remove(Security::AUTHENTICATION_ERROR);
         } else {
-            $error = null;
+            $exception = null;
         }
 
         // redirect in case of credentials expired is configured
-        if ($error instanceof CredentialsExpiredException && $credentialsExpired) {
-            $request->getSession()->set('credentials_expired_user', $error->getUser());
+        if ($exception instanceof CredentialsExpiredException && $credentialsExpired) {
+            $request->getSession()->set('credentials_expired_user', $exception->getUser());
             return $this->redirectToRoute($credentialsExpired['route']);
         }
 
         // add a flash message
-        if ($error && $flashBagOptions && $flashBagOptions['type']['error']) {
+        if ($exception && $flashBagOptions && $flashBagOptions['type']['error']) {
             $flashBag = $this->get('session')->getFlashBag();
             $type     = $flashBagOptions['type']['error'];
             $flashBag->add(
                 $type,
-                $this->renderView('@IPCCore/translate.html.twig', ['message' => $error->getMessage()])
+                $this->renderView('@IPCCore/translate.html.twig', ['message' => $exception->getMessage()])
             );
         }
 
@@ -54,7 +54,7 @@ class SecurityController extends Controller
         return $this->render($viewTemplate, [
             // last username entered by the user
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'exception'     => $exception,
             'login'         => $loginForm->createView(),
         ]);
     }
