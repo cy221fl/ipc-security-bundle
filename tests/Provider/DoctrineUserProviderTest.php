@@ -23,13 +23,15 @@ class DoctrineUserProviderTest extends AbstractSymfonyTest
 
     public function testConstructorException()
     {
-        $this->setExpectedExceptionRegExp(UnsupportedUserException::class, '/Instances of ".*" are not supported./');
+        $this->expectException(UnsupportedUserException::class);
+        $this->expectExceptionMessageRegExp('/Instances of ".*" are not supported./');
         new DoctrineUserProvider($this->container->get('doctrine'), \stdClass::class);
     }
 
     public function testLoadUserByUsernameUsernameNotFoundException()
     {
-        $this->setExpectedExceptionRegExp(UsernameNotFoundException::class, '/Username could not be found./');
+        $this->expectException(UsernameNotFoundException::class);
+        $this->expectExceptionMessage('Username could not be found.');
         $exception = new NoResultException();
         $managerRegistry = $this->getMockedManagerRegistry($exception);
         $provider = new DoctrineUserProvider($managerRegistry, User::class);
@@ -39,7 +41,8 @@ class DoctrineUserProviderTest extends AbstractSymfonyTest
 
     public function testLoadUserByUsernameAuthenticationException()
     {
-        $this->setExpectedExceptionRegExp(AuthenticationException::class, '/Multiple users found by username property./');
+        $this->expectException(AuthenticationException::class);
+        $this->expectExceptionMessage('Multiple users found by username property.');
         $exception = new NonUniqueResultException();
         $managerRegistry = $this->getMockedManagerRegistry($exception);
         $provider = new DoctrineUserProvider($managerRegistry, User::class);
@@ -69,7 +72,8 @@ class DoctrineUserProviderTest extends AbstractSymfonyTest
             ])
             ->getMock();
 
-        $this->setExpectedExceptionRegExp(UnsupportedUserException::class, '/Instances of ".*" are not supported./');
+        $this->expectException(UnsupportedUserException::class);
+        $this->expectExceptionMessageRegExp('/Instances of ".*" are not supported./');
         $managerRegistry = $this->getMockedManagerRegistry($user);
         $provider = new DoctrineUserProvider($managerRegistry, User::class);
         $provider->refreshUser($user);
