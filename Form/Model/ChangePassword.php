@@ -2,7 +2,7 @@
 
 namespace IPC\SecurityBundle\Form\Model;
 
-class ChangePassword implements ChangePasswordInterface
+class ChangePassword
 {
 
     /**
