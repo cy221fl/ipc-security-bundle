@@ -40,12 +40,9 @@ class SecurityController extends Controller
 
         // add a flash message
         if ($exception && $flashBagOptions && $flashBagOptions['type']['error']) {
-            $flashBag = $this->get('session')->getFlashBag();
-            $type     = $flashBagOptions['type']['error'];
-            $flashBag->add(
-                $type,
-                $this->renderView('@IPCCore/translate.html.twig', ['message' => $exception->getMessage()])
-            );
+            $type      = $flashBagOptions['type']['error'];
+            $translate = $flashBagOptions['translate'];
+            $this->addFlashMessage($type, $exception->getMessage(), $translate);
         }
 
         // last username entered by the user
@@ -137,7 +134,7 @@ class SecurityController extends Controller
     protected function addFlashMessage($type, $message, $translate)
     {
         if ($translate) {
-            $this->addFlash($type, $this->renderView('@IPCCore/translate.html.twig', ['message' => $message]));
+            $this->addFlash($type, $this->get('translator')->trans($message));
         } else {
             $this->addFlash($type, $message);
         }
