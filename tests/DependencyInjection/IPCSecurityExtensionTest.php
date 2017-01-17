@@ -86,6 +86,7 @@ class IPCSecurityExtensionTest extends \PHPUnit_Framework_TestCase
             ],
             'ipc_security.credentials_expired.form' => 'IPC\SecurityBundle\Form\Type\ChangePasswordType',
             'ipc_security.credentials_expired.view' => 'IPCSecurityBundle:Security:change_password.html.twig',
+            'ipc_security.credentials_expired.route' => 'login',
             'ipc_security.credentials_expired.options' => [
                 'require_current'  => false,
                 'require_repeated' => true,
@@ -102,6 +103,7 @@ class IPCSecurityExtensionTest extends \PHPUnit_Framework_TestCase
             'ipc_security.doctrine_user_provider.username_properties' => [
                 'username'
             ],
+
         ];
 
         $this->assertEquals($default, $config);
