@@ -76,6 +76,7 @@ class SecurityController extends Controller
             $manager = $this->getDoctrine()->getManagerForClass(get_class($user));
             $user    = $manager->merge($user);
             $manager->refresh($user);
+            $this->get('security.token_storage')->getToken()->setUser($user);
         } catch (\Exception $e) {
             $request->getSession()->remove('credentials_expired_user');
             throw $this->createNotFoundException('ipc_security.credentials_expired.user_not_found', $e);
