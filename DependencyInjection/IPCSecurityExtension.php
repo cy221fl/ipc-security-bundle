@@ -46,6 +46,10 @@ class IPCSecurityExtension extends Extension
             $config['credentials_expired']['view']
         );
         $container->setParameter(
+            'ipc_security.credentials_expired.route',
+            $config['credentials_expired']['route']
+        );
+        $container->setParameter(
             'ipc_security.credentials_expired.options',
             $config['credentials_expired']['options']
         );

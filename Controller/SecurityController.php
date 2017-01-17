@@ -69,12 +69,23 @@ class SecurityController extends Controller
      */
     public function credentialsExpiredAction(Request $request)
     {
-        /* @var $user User */
-        $user            = $request->getSession()->get('credentials_expired_user');
+        // load user
+        try {
+            /* @var $user User */
+            $user    = $request->getSession()->get('credentials_expired_user');
+            $manager = $this->getDoctrine()->getManagerForClass(get_class($user));
+            $user    = $manager->merge($user);
+            $manager->refresh($user);
+        } catch (\Exception $e) {
+            $request->getSession()->remove('credentials_expired_user');
+            throw $this->createNotFoundException('ipc_security.credentials_expired.user_not_found', $e);
+        }
+
         $formClass       = $this->container->getParameter('ipc_security.credentials_expired.form');
         $viewTemplate    = $this->container->getParameter('ipc_security.credentials_expired.view');
         $options         = $this->container->getParameter('ipc_security.credentials_expired.options');
         $flashBagOptions = $this->container->getParameter('ipc_security.credentials_expired.flash_bag');
+        $route           = $this->container->getParameter('ipc_security.credentials_expired.route');
 
         $model = new ChangePassword();
         $form  = $this->createForm($formClass, $model, $options);
@@ -88,7 +99,6 @@ class SecurityController extends Controller
                     ->getEncoder($user)
                     ->encodePassword($model->getNew(), $user->getSalt())
                 );
-            $manager = $this->getDoctrine()->getManagerForClass(get_class($user));
             $manager->persist($user);
             $manager->flush();
             $request->getSession()->remove('credentials_expired_user');
@@ -99,6 +109,8 @@ class SecurityController extends Controller
                 $translate = $flashBagOptions['translate'];
                 $this->addFlashMessage($type, 'ipc_security.credentials_expired.update_success', $translate);
             }
+
+            return $this->redirectToRoute($route);
 
         } else {
             if ($flashBagOptions && $flashBagOptions['type']['error']) {
