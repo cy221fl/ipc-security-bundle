@@ -8,7 +8,7 @@ framework:
         collect: false
     secret: "test"
     router:
-        resource: "%kernel.root_dir%/../Resources/config/routing.yml"
+        resource: "%kernel.root_dir%/../src/Resources/config/routing.yml"
         strict_requirements: ~
     templating:
         engines: ['twig']

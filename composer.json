@@ -14,13 +14,18 @@
   "repositories": [
     {
       "type": "vcs",
+      "url": "ssh://git@bitbucket.ideaplexus.com:7999/ipc/corebundle.git"
+    },
+    {
+      "type": "vcs",
       "url": "ssh://git@bitbucket.ideaplexus.com:7999/ipc/validatorbundle.git"
     }
   ],
   "require": {
-    "php": ">= 5.5.9",
+    "php": ">= 7.0",
     "symfony/symfony": "^3.0",
     "doctrine/doctrine-bundle": "^1.5",
+    "ipc/core-bundle": "^0.2",
     "ipc/validator-bundle": "^0.1"
   },
   "require-dev": {
@@ -37,12 +42,12 @@
   },
   "autoload": {
     "psr-4": {
-      "IPC\\SecurityBundle\\": ""
+      "IPC\\SecurityBundle\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Tests\\IPC\\SecurityBundle\\": "tests/"
     }
   },
   "config": {
