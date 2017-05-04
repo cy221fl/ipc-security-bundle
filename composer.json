@@ -26,13 +26,13 @@
     "symfony/symfony": "^3.0",
     "doctrine/doctrine-bundle": "^1.5",
     "ipc/core-bundle": "^0.2",
-    "ipc/validator-bundle": "^0.1"
+    "ipc/validator-bundle": "^0.2"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "@stable",
     "symfony/monolog-bundle": "@stable",
     "ipc/test-bundle": "@stable",
-    "phpunit/phpunit": "@stable",
+    "phpunit/phpunit": "^6.0",
     "pdepend/pdepend": "@stable",
     "phploc/phploc": "@stable",
     "phpmd/phpmd": "@stable",

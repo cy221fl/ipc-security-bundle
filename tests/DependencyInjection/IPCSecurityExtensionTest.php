@@ -3,10 +3,11 @@
 namespace Tests\IPC\SecurityBundle\DependencyInjection;
 
 use IPC\SecurityBundle\DependencyInjection\IPCSecurityExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Parser;
 
-class IPCSecurityExtensionTest extends \PHPUnit_Framework_TestCase
+class IPCSecurityExtensionTest extends TestCase
 {
 
     /**
