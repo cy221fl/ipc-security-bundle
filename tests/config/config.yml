@@ -18,12 +18,18 @@ security:
         Symfony\Component\Security\Core\User\User: plaintext
         IPC\SecurityBundle\Entity\User: plaintext
     providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, database]
         in_memory:
             memory:
                 users:
                     test:
                         password: test
                         roles: ROLE_USER
+        database:
+            id: ipc.security.doctine_user_provider
+
     firewalls:
         secured_area:
             http_basic: ~
@@ -35,6 +41,7 @@ security:
                 username_parameter: "login[username]"
                 password_parameter: "login[password]"
                 require_previous_session: false
+                default_target_path: profiler_status
             logout:
                 path:   /logout
                 target: /
@@ -93,4 +100,7 @@ monolog:
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
 
-ipc_security: ~
+ipc_security:
+  doctrine_user_provider:
+    entity_class: IPC\SecurityBundle\Entity\User
+    username_properties: [ "username" ]

@@ -70,10 +70,14 @@ class SecurityController extends Controller
         try {
             /* @var $user User */
             $user    = $request->getSession()->get('credentials_expired_user');
-            $manager = $this->getDoctrine()->getManagerForClass(get_class($user));
-            $user    = $manager->merge($user);
-            $manager->refresh($user);
-            $this->get('security.token_storage')->getToken()->setUser($user);
+            if ($user) {
+                $manager = $this->getDoctrine()->getManagerForClass(get_class($user));
+                $user    = $manager->merge($user);
+                $manager->refresh($user);
+                $this->get('security.token_storage')->getToken()->setUser($user);
+            } else {
+                throw $this->createAccessDeniedException('ipc_security.credentials_expired.direct_access_denied');
+            }
         } catch (\Exception $e) {
             $request->getSession()->remove('credentials_expired_user');
             throw $this->createNotFoundException('ipc_security.credentials_expired.user_not_found', $e);

@@ -1,0 +1,38 @@
+IPC\SecurityBundle\Entity\User:
+  type: entity
+  table: User
+  id:
+    username:
+      type: string
+      length: 63
+  fields:
+    password:
+      type: string
+      length: 60
+      nullable: false
+    locked:
+      type: boolean
+      nullable: false
+    expired:
+      type: boolean
+      nullable: false
+    credentialsExpired:
+      type: boolean
+      nullable: false
+    enabled:
+      type: boolean
+      nullable: false
+  manyToMany:
+    roles:
+      targetEntity: IPC\SecurityBundle\Entity\Role
+      inversedBy: users
+      joinTable:
+        name: User_x_Role
+        joinColumns:
+          username:
+            referencedColumnName: username
+            nullable: false
+        inverseJoinColumns:
+          roleKey:
+            referencedColumnName: roleKey
+            nullable: false
