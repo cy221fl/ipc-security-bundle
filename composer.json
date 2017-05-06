@@ -26,7 +26,7 @@
     "symfony/symfony": "^3.0",
     "doctrine/doctrine-bundle": "^1.5",
     "ipc/core-bundle": "^1.0",
-    "ipc/validator-bundle": "^0.2"
+    "ipc/validator-bundle": "^1.0"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "@stable",
