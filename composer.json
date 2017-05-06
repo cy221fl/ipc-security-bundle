@@ -25,7 +25,7 @@
     "php": ">= 7.0",
     "symfony/symfony": "^3.0",
     "doctrine/doctrine-bundle": "^1.5",
-    "ipc/core-bundle": "^0.2",
+    "ipc/core-bundle": "^1.0",
     "ipc/validator-bundle": "^0.2"
   },
   "require-dev": {
