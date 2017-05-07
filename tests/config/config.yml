@@ -76,6 +76,14 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        mappings:
+            IPCSecurityBundle:
+                mapping:              true
+                type:                 yml
+                dir:                  "../tests/config/doctrine"
+                alias:                ~
+                prefix:               IPC\SecurityBundle\Entity
+                is_bundle:            true
 
 # Monolog Configuration
 monolog:
