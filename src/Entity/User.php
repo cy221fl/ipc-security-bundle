@@ -2,9 +2,6 @@
 
 namespace IPC\SecurityBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Serializable;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -44,7 +41,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     /**
      * Roles
      *
-     * @var Collection|Role[]
+     * @var string[]
      */
     protected $roles;
 
@@ -78,7 +75,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
 
     public function __construct()
     {
-        $this->roles = new ArrayCollection();
+        $this->roles = [];
         $this->expired = false;
         $this->locked = false;
         $this->enabled = false;
@@ -89,74 +86,55 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     /**
      * Returns the roles granted to the user.
      *
-     * <code>
-     * public function getRoles()
-     * {
-     *     return array('ROLE_USER');
-     * }
-     * </code>
-     *
-     * Alternatively, the roles might be stored on a ``roles`` property,
-     * and populated in any number of different ways when the user object
-     * is created.
-     *
-     * @return Role[] The user roles
+     * @return string[] The user roles
      */
     public function getRoles()
     {
-        return $this->roles->toArray();
+        return $this->roles;
     }
 
     /**
-     * @param Role|string $role
+     * @param string $role
      *
      * @return $this
      */
     public function addRole($role)
     {
-        if (is_string($role)) {
-            $role = new Role($role);
-        } // no else
+        $role = (string) $role;
+
         if (!$this->hasRole($role)) {
-            $this->roles->add($role);
-            $role->addUser($this);
+            $this->roles[] = $role;
         } // no else
+
         return $this;
     }
 
     /**
-     * @param Role|string $role
+     * @param string $role
      *
      * @return bool
      */
     public function hasRole($role)
     {
-        if (is_string($role)) {
-            $role = new Role($role);
-        } // no else
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', $role->getRole()));
-        $roles = new ArrayCollection($this->getRoles());
-        return !$roles->matching($criteria)->isEmpty();
+        $role = (string) $role;
+
+        return in_array($role, $this->roles, true);
     }
 
     /**
-     * @param Role|string $role
+     * @param string $role
      *
      * @return $this
      */
     public function removeRole($role)
     {
-        if (is_string($role)) {
-            $role = new Role($role);
-        }
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', $role->getRole()));
-        $roles = new ArrayCollection($this->getRoles());
-        /* @var $userRole Role */
-        foreach ($roles->matching($criteria) as $userRole) {
-            $roles->removeElement($userRole);
-            $userRole->removeUser($this);
+        $role = (string) $role;
+
+        $index = array_search($role, $this->roles, true);
+        if ($index) {
+            unset($this->roles[$index]);
         } // no else
-        $this->roles = $roles;
+
         return $this;
     }
 
@@ -387,7 +365,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $this->expired,
             $this->credentialsExpired,
             $this->enabled,
-            $this->roles->toArray()
+            $this->roles,
         ]);
     }
 
@@ -404,9 +382,8 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $this->expired,
             $this->credentialsExpired,
             $this->enabled,
-            $roles
+            $this->roles,
         ) = unserialize($serialized);
-        $this->roles = new ArrayCollection($roles);
     }
 
     /**
@@ -426,6 +403,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $this->getPassword(),
             $this->getSalt(),
         ]);
+
         return $userKey === $selfKey;
     }
 

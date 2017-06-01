@@ -2,7 +2,6 @@
 
 namespace Tests\IPC\SecurityBundle\Controller;
 
-use IPC\SecurityBundle\Entity\Role;
 use IPC\SecurityBundle\Entity\User;
 use IPC\TestBundle\Tests\Controller\AbstractControllerTest;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;

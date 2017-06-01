@@ -3,7 +3,6 @@
 namespace Tests\IPC\SecurityBundle\Entity;
 
 use IPC\SecurityBundle\Entity\User;
-use IPC\SecurityBundle\Entity\Role;
 use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
@@ -101,7 +100,7 @@ class UserTest extends TestCase
             ->setCredentialsExpired(true)
             ->setEnabled(true)
             ->addRole('ROLE_ADMIN')
-            ->addRole(new Role('ROLE_USER'))
+            ->addRole('ROLE_USER')
         ;
         $user = new User();
         $user->unserialize($this->user->serialize());
@@ -113,7 +112,7 @@ class UserTest extends TestCase
         $this->assertEmpty($this->user->getRoles());
         $this->user->addRole('ROLE_ADMIN');
         $this->assertArrayHasKey('ROLE_ADMIN', $this->user->getRoles());
-        $this->user->addRole(new Role('ROLE_USER'));
+        $this->user->addRole('ROLE_USER');
         $this->assertTrue($this->user->hasRole('ROLE_ADMIN'));
         $this->assertArrayHasKey('ROLE_USER', $this->user->getRoles());
         $this->assertTrue($this->user->hasRole('ROLE_USER'));

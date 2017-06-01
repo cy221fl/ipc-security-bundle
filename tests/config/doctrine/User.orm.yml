@@ -22,17 +22,21 @@ IPC\SecurityBundle\Entity\User:
     enabled:
       type: boolean
       nullable: false
-  manyToMany:
     roles:
-      targetEntity: IPC\SecurityBundle\Entity\Role
-      inversedBy: users
-      joinTable:
-        name: User_x_Role
-        joinColumns:
-          username:
-            referencedColumnName: username
-            nullable: false
-        inverseJoinColumns:
-          roleKey:
-            referencedColumnName: roleKey
-            nullable: false
+      type: json_array
+      nullable: false
+#
+#  manyToMany:
+#    roles:
+#      targetEntity: IPC\SecurityBundle\Entity\Role
+#      inversedBy: users
+#      joinTable:
+#        name: User_x_Role
+#        joinColumns:
+#          username:
+#            referencedColumnName: username
+#            nullable: false
+#        inverseJoinColumns:
+#          roleKey:
+#            referencedColumnName: roleKey
+#            nullable: false
