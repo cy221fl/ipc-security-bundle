@@ -4,9 +4,8 @@ namespace IPC\SecurityBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 
-class Role implements RoleInterface
+class Role
 {
 
     /**
@@ -105,5 +104,15 @@ class Role implements RoleInterface
     public function getRole()
     {
         return $this->roleKey;
+    }
+
+    /**
+     * Get string representation of role
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return (string) $this->roleKey;
     }
 }

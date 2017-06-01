@@ -23,13 +23,13 @@
   ],
   "require": {
     "php": ">= 7.0",
-    "symfony/symfony": "^3.0",
-    "doctrine/doctrine-bundle": "^1.5",
+    "symfony/symfony": "^3.3",
+    "doctrine/doctrine-bundle": "^1.6",
     "ipc/core-bundle": "^1.0",
     "ipc/validator-bundle": "^1.0"
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "@stable",
+    "symfony/phpunit-bridge": "^3.3",
     "symfony/monolog-bundle": "@stable",
     "ipc/test-bundle": "@stable",
     "phpunit/phpunit": "^6.0",

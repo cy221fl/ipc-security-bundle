@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Serializable;
-use Symfony\Component\Security\Core\Role\RoleInterface;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -45,7 +44,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     /**
      * Roles
      *
-     * @var Collection|RoleInterface[]
+     * @var Collection|Role[]
      */
     protected $roles;
 
@@ -101,7 +100,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
      * and populated in any number of different ways when the user object
      * is created.
      *
-     * @return RoleInterface[] The user roles
+     * @return Role[] The user roles
      */
     public function getRoles()
     {
@@ -109,21 +108,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @param RoleInterface|string $role
-     *
-     * @return bool
-     */
-    public function hasRole($role)
-    {
-        if (is_string($role)) {
-            $role = new Role($role);
-        } // no else
-
-        return $this->roles->containsKey($role->getRole());
-    }
-
-    /**
-     * @param Role | string $role
+     * @param Role|string $role
      *
      * @return $this
      */
@@ -140,7 +125,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @param RoleInterface|string $role
+     * @param Role|string $role
      *
      * @return bool
      */
@@ -155,7 +140,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     }
 
     /**
-     * @param RoleInterface|string $role
+     * @param Role|string $role
      *
      * @return $this
      */
@@ -442,5 +427,13 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
             $this->getSalt(),
         ]);
         return $userKey === $selfKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->username;
     }
 }

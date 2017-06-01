@@ -67,7 +67,7 @@ doctrine:
     dbal:
         driver:   pdo_sqlite
         user:     "test"
-        path:     "%kernel.cache_dir%/sqlite.db.cache"
+        path:     "%kernel.cache_dir%/db.cache.sqlite"
         memory:   true
         charset:  UTF8
         mapping_types:

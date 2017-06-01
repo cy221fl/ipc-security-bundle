@@ -49,7 +49,7 @@ class SecurityControllerTest extends AbstractControllerTest
 
     public function testLoginSuccess()
     {
-        $user = $this->createUser('login', 'login', [], true, true, true, true);
+        $user = $this->createUser('login_success', 'login', [], true, true, true, true);
 
         $this->client->followRedirects();
         $crawler = $this->client->request('POST', 'login_check', ['login' => ['username' => $user->getUsername(), 'password' => $user->getPassword()]]);
@@ -62,7 +62,7 @@ class SecurityControllerTest extends AbstractControllerTest
     {
         $this->client->followRedirects();
 
-        $user = $this->createUser('login', 'login', [], true, true, false, true);
+        $user = $this->createUser('login_expired', 'login', [], true, true, false, true);
 
         // test direct access to credentials_expired
          $this->client->request('GET', 'credentials_expired');
@@ -104,8 +104,12 @@ class SecurityControllerTest extends AbstractControllerTest
         $output = new NullOutput();
 
         $app->run(new ArrayInput([
-            'doctrine:schema:drop',
+            'doctrine:database:drop',
             '--force' => true,
+        ]), $output);
+
+        $app->run(new ArrayInput([
+            'doctrine:database:create',
         ]), $output);
 
         $app->run(new ArrayInput([
@@ -135,7 +139,7 @@ class SecurityControllerTest extends AbstractControllerTest
         $manager->refresh($userEntity);
 
         // prepare cleanup
-        $this->removeEntity($userEntity);#
+        $this->removeEntity($userEntity);
         foreach ($userEntity->getRoles() as $roleEntity) {
             $this->removeEntity($roleEntity);
         }
