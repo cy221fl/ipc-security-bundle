@@ -1,10 +1,14 @@
 login:
     path:     /login
-    defaults: { _controller: IPCSecurityBundle:Authentication:login }
+    defaults: { _controller: IPCSecurityBundle:Security:login }
 login_check:
     path:     /login_check
 logout:
     path:     /logout
+
+credentials_expired:
+    path:     /credentials_expired
+    defaults: { _controller: IPCSecurityBundle:Security:credentialsExpired }
 
 profiler_enable:
     path:     /profiler/enable

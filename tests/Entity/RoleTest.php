@@ -4,8 +4,9 @@ namespace Tests\IPC\SecurityBundle\Entity;
 
 use IPC\SecurityBundle\Entity\Role;
 use IPC\SecurityBundle\Entity\User;
+use PHPUnit\Framework\TestCase;
 
-class RoleTest extends \PHPUnit_Framework_TestCase
+class RoleTest extends TestCase
 {
 
     /**

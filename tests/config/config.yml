@@ -8,7 +8,7 @@ framework:
         collect: false
     secret: "test"
     router:
-        resource: "%kernel.root_dir%/../Resources/config/routing.yml"
+        resource: "%kernel.root_dir%/../src/Resources/config/routing.yml"
         strict_requirements: ~
     templating:
         engines: ['twig']
@@ -16,13 +16,20 @@ framework:
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        IPC\SecurityBundle\Entity\User: plaintext
     providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, database]
         in_memory:
             memory:
                 users:
                     test:
                         password: test
                         roles: ROLE_USER
+        database:
+            id: ipc.security.doctine_user_provider
+
     firewalls:
         secured_area:
             http_basic: ~
@@ -34,6 +41,7 @@ security:
                 username_parameter: "login[username]"
                 password_parameter: "login[password]"
                 require_previous_session: false
+                default_target_path: profiler_status
             logout:
                 path:   /logout
                 target: /
@@ -68,6 +76,14 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        mappings:
+            IPCSecurityBundle:
+                mapping:              true
+                type:                 yml
+                dir:                  "../tests/config/doctrine"
+                alias:                ~
+                prefix:               IPC\SecurityBundle\Entity
+                is_bundle:            true
 
 # Monolog Configuration
 monolog:
@@ -92,4 +108,7 @@ monolog:
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
 
-ipc_security: ~
+ipc_security:
+  doctrine_user_provider:
+    entity_class: IPC\SecurityBundle\Entity\User
+    username_properties: [ "username" ]

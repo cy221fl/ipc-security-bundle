@@ -111,6 +111,20 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
     /**
      * @param RoleInterface|string $role
      *
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        if (is_string($role)) {
+            $role = new Role($role);
+        } // no else
+
+        return $this->roles->containsKey($role->getRole());
+    }
+
+    /**
+     * @param Role | string $role
+     *
      * @return $this
      */
     public function addRole($role)

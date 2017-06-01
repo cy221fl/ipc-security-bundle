@@ -11,16 +11,28 @@
       "email": "torsten.burschka@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "ssh://git@bitbucket.ideaplexus.com:7999/ipc/corebundle.git"
+    },
+    {
+      "type": "vcs",
+      "url": "ssh://git@bitbucket.ideaplexus.com:7999/ipc/validatorbundle.git"
+    }
+  ],
   "require": {
-    "php": ">= 5.5.9",
-    "symfony/symfony": "~3.0",
-    "doctrine/doctrine-bundle": "~1.5"
+    "php": ">= 7.0",
+    "symfony/symfony": "^3.0",
+    "doctrine/doctrine-bundle": "^1.5",
+    "ipc/core-bundle": "^1.0",
+    "ipc/validator-bundle": "^1.0"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "@stable",
     "symfony/monolog-bundle": "@stable",
     "ipc/test-bundle": "@stable",
-    "phpunit/phpunit": "@stable",
+    "phpunit/phpunit": "^6.0",
     "pdepend/pdepend": "@stable",
     "phploc/phploc": "@stable",
     "phpmd/phpmd": "@stable",
@@ -30,18 +42,18 @@
   },
   "autoload": {
     "psr-4": {
-      "IPC\\SecurityBundle\\": ""
+      "IPC\\SecurityBundle\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "Tests\\IPC\\SecurityBundle\\": "tests/"
     }
   },
   "config": {
     "preferred-install": "dist",
     "github-oauth": {
-      "github.com": "7098f9cd9623e2a77efb1f8cb25b61aef0a3f668"
+      "github.com": "0e82ae8022e3590063bfe6322d2cabceb4476c5a"
     }
   }
 }

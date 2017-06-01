@@ -1,0 +1,11 @@
+IPC\SecurityBundle\Entity\Role:
+  type: entity
+  table: Role
+  id:
+    roleKey:
+      type: string
+      length: 63
+  manyToMany:
+    users:
+      targetEntity: IPC\SecurityBundle\Entity\User
+      mappedBy: roles

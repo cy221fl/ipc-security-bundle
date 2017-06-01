@@ -11,3 +11,8 @@ services:
         class: IPC\SecurityBundle\Form\Type\LoginType
         tags:
             - { name: form.type, alias: login }
+
+    ipc.security.form.type.change_password:
+        class: IPC\SecurityBundle\Form\Type\ChangePasswordType
+        tags:
+            - { name: form.type, alias: change_password }
