@@ -111,15 +111,18 @@ class UserTest extends TestCase
     {
         $this->assertEmpty($this->user->getRoles());
         $this->user->addRole('ROLE_ADMIN');
-        $this->assertArrayHasKey('ROLE_ADMIN', $this->user->getRoles());
+        $this->assertTrue($this->user->hasRole('ROLE_ADMIN'));
+        $this->assertTrue(in_array('ROLE_ADMIN', $this->user->getRoles()));
         $this->user->addRole('ROLE_USER');
         $this->assertTrue($this->user->hasRole('ROLE_ADMIN'));
-        $this->assertArrayHasKey('ROLE_USER', $this->user->getRoles());
         $this->assertTrue($this->user->hasRole('ROLE_USER'));
-        $this->user->removeRole('ROLE_USER');
-        $this->assertArrayNotHasKey('ROLE_USER', $this->user->getRoles());
-        $this->assertFalse($this->user->hasRole('ROLE_USER'));
-        $this->assertTrue($this->user->hasRole('ROLE_ADMIN'));
+        $this->assertTrue(in_array('ROLE_ADMIN', $this->user->getRoles()));
+        $this->assertTrue(in_array('ROLE_USER', $this->user->getRoles()));
+        $this->user->removeRole('ROLE_ADMIN');
+        $this->assertTrue($this->user->hasRole('ROLE_USER'));
+        $this->assertFalse($this->user->hasRole('ROLE_ADMIN'));
+        $this->assertFalse(in_array('ROLE_ADMIN', $this->user->getRoles()));
+        $this->assertTrue(in_array('ROLE_USER', $this->user->getRoles()));
     }
 
     public function testIsEqualToMethod()

@@ -48,7 +48,7 @@ class SecurityControllerTest extends AbstractControllerTest
 
     public function testLoginSuccess()
     {
-        $user = $this->createUser('login_success', 'login', [], true, true, true, true);
+        $user = $this->createUser('login_success', 'login', ['ROLE_USER'], true, true, true, true);
 
         $this->client->followRedirects();
         $crawler = $this->client->request('POST', 'login_check', ['login' => ['username' => $user->getUsername(), 'password' => $user->getPassword()]]);
@@ -61,7 +61,7 @@ class SecurityControllerTest extends AbstractControllerTest
     {
         $this->client->followRedirects();
 
-        $user = $this->createUser('login_expired', 'login', [], true, true, false, true);
+        $user = $this->createUser('login_expired', 'login', ['ROLE_USER'], true, true, false, true);
 
         // test direct access to credentials_expired
          $this->client->request('GET', 'credentials_expired');
@@ -127,8 +127,7 @@ class SecurityControllerTest extends AbstractControllerTest
         $userEntity->setCredentialsExpired(!$credentialsNonExpired);
         $userEntity->setLocked(!$userNonLocked);
         foreach ($roles as $role) {
-            $roleEntity = new Role($role);
-            $userEntity->addRole($roleEntity);
+            $userEntity->addRole($role);
         }
 
         // persist
@@ -139,9 +138,6 @@ class SecurityControllerTest extends AbstractControllerTest
 
         // prepare cleanup
         $this->removeEntity($userEntity);
-        foreach ($userEntity->getRoles() as $roleEntity) {
-            $this->removeEntity($roleEntity);
-        }
 
         return $userEntity;
     }

@@ -66,7 +66,6 @@ class DoctrineUserProvider implements UserProviderInterface
         ;
         try {
             $qb = $repository->createQueryBuilder('u');
-            $qb->select('u, r')->leftJoin('u.roles', 'r');
 
             foreach ($this->usernameProperties as $property) {
                 $qb->orWhere('u.' . $property . ' = :' . $property);

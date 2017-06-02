@@ -131,7 +131,7 @@ class User implements AdvancedUserInterface, EquatableInterface, Serializable
         $role = (string) $role;
 
         $index = array_search($role, $this->roles, true);
-        if ($index) {
+        if ($index !== false) {
             unset($this->roles[$index]);
         } // no else
 
