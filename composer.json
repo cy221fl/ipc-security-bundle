@@ -1,9 +1,9 @@
 {
   "name": "cy/ipc-security-bundle",
   "type": "library",
-  "description": "",
+  "description": "Fork of https://github.com/tburschka/ipc-security-bundle",
   "keywords": ["php"],
-  "homepage": "https://github.com/tburschka/ipc-security-bundle",
+  "homepage": "https://github.com/cy221fl/ipc-security-bundle",
   "license": "MIT",
   "authors": [
     {
