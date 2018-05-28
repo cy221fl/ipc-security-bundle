@@ -1,5 +1,5 @@
 {
-  "name": "ipc/security-bundle",
+  "name": "cy/ipc-security-bundle",
   "type": "library",
   "description": "",
   "keywords": ["php"],
